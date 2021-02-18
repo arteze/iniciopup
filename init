@@ -1,0 +1,57 @@
+#!/bin/ash
+
+montar_proc(){
+	mkdir -p /proc
+	mount -t proc none /proc
+}
+montar_dev(){
+	mkdir -p /sistema
+	cd /sistema
+	mkdir -p dev
+	mount -t devtmpfs none dev
+	cd /
+}
+montar_sistema(){
+	montar_proc
+	montar_dev
+}
+montar_sd(){
+	mkdir -p /sistema
+	cd /sistema
+	mkdir -p a
+	mount dev/sda4 a
+	cd /
+}
+desmontar_todo(){
+	umount -a
+}
+borrar_carpeta(){
+	[[ -d $1 ]] && rm -r $1
+}
+borrar_sistema(){
+	borrar_carpeta /proc
+	borrar_carpeta /dev
+	borrar_carpeta /sistema
+}
+borrar_sd_seguro(){
+	montar_proc
+	umount /sistema/a
+	desmontar_todo
+	borrar_carpeta /proc
+	borrar_carpeta /sistema
+}
+
+montar_sistema
+montar_sd
+
+inip=/sistema/a/inipup
+ls $inip
+cp -rfv $inip/* /
+
+echo "Presionar una tecla para iniciar bash."
+read -t 5 -n 1 iniash
+if [[ "$iniash" != "" ]];then
+	ash
+fi
+
+. /init2
