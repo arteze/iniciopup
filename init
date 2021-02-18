@@ -1,5 +1,13 @@
 #!/bin/ash
 
+crear_enlaces(){
+	cd $(busybox dirname $0)/bin
+	enlaces="ash basename chroot cp dirname grep ln ls mkdir mount mv rm sleep tr umount"
+	busybox echo $enlaces | busybox tr " " "\n" | while read archivo; do
+		busybox ln -s busybox $archivo
+	done
+
+}
 montar_proc(){
 	mkdir -p /proc
 	mount -t proc none /proc
@@ -41,6 +49,7 @@ borrar_sd_seguro(){
 	borrar_carpeta /sistema
 }
 
+crear_enlaces
 montar_sistema
 montar_sd
 
