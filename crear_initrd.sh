@@ -3,7 +3,7 @@
 . ./crear_enlaces.sh
 
 crear_gz(){
-	 find . | grep -v ./initrd.gz | cpio -H newc --create --verbose | gzip -9 > ./initrd.gz
+	find . | grep -v ./initrd.gz | cpio -voH newc > ./initrd.cpio
 }
 
 crear_enlaces
