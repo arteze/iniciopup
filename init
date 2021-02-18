@@ -1,13 +1,7 @@
 #!/bin/ash
 
-crear_enlaces(){
-	cd $(busybox dirname $0)/bin
-	enlaces="ash basename chroot cp dirname grep ln ls mkdir mount mv rm sleep tr umount"
-	busybox echo $enlaces | busybox tr " " "\n" | while read archivo; do
-		busybox ln -s busybox $archivo
-	done
+. ./crear_enlaces.sh
 
-}
 montar_proc(){
 	mkdir -p /proc
 	mount -t proc none /proc
