@@ -18,17 +18,14 @@ montar_sistema(){
 	montar_dev
 }
 montar_sd(){
-	mkdir -p /sistema
-	cd /sistema
-	mkdir -p a
-	mount dev/sda4 a
-	cd /
+	mkdir -p /sistema/a
+	mount dev/sda4 /sistema/a
 }
 desmontar_todo(){
 	umount -a
 }
 borrar_carpeta(){
-	[[ -d $1 ]] && rm -r $1
+	[[ -d $1 ]] && [[ "$(echo $(ls -a $1))" == ". .." ]] && rm -r $1 || echo "No se pudo borrar"
 }
 borrar_sistema(){
 	borrar_carpeta /proc
@@ -43,18 +40,16 @@ borrar_sd_seguro(){
 	borrar_carpeta /sistema
 }
 
+echo "iniciando sistema"
+
 crear_enlaces
 montar_sistema
 montar_sd
 
 inip=/sistema/a/inipup
 ls $inip
-cp -rfv $inip/* /
+cp -rf $inip/* /
 
-echo "Presionar una tecla para iniciar bash."
-read -t 5 -n 1 iniash
-if [[ "$iniash" != "" ]];then
-	ash
-fi
+borrar_sd_seguro
 
 . /init2
