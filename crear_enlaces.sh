@@ -13,3 +13,7 @@ borrar_enlaces(){
 		busybox rm -v ./bin/$archivo
 	done
 }
+
+if [[ "$1" == "ash" ]];then
+	busybox ln -s busybox ./bin/ash
+fi
