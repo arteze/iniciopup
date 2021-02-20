@@ -111,5 +111,5 @@ desmontar_todo(){
 }
 
 copiar_inipup(){
-	cp -rfv $inip/* /
+	cp -rf $inip/* /
 }
