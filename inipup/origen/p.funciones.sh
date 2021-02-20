@@ -29,13 +29,13 @@ elegir(){
 echo "
 2.programa.sh 
 
-      CNTSAVE=$(expr $CNTSAVE + 1)
+      CNTSAVE=\$(expr \$CNTSAVE + 1)
      done
      echo -en \"\\033[0;39m\" > /dev/console
-     elegido=\"$(elegir)\"
-     NUMSAVE=\"$(echo $elegido | cut -d " " -f 1)\"
-     echo \"Elegido $elegido - NUMSAVE $NUMSAVE\" > /dev/console
-     #--  $NUMSAVE -ne 0 = have selected a PUPSAVE ...
+     elegido=\"\$(elegir)\"
+     NUMSAVE=\"\$(echo \$elegido | cut -d " " -f 1)\"
+     echo \"Elegido \$elegido - NUMSAVE \$NUMSAVE\" > /dev/console
+     #--  \$NUMSAVE -ne 0 = have selected a PUPSAVE ...
 
 " >  "$(mount | grep devtmpfs | cut -d " " -f 3)/null"
 
