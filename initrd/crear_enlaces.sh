@@ -1,17 +1,24 @@
 #!/bin/ash
 
 cd $(busybox dirname $0)
-enlaces="ash basename chroot cp cpio dirname find grep gzip ln ls mkdir mount mv rm sleep tr umount"
 
-crear_enlaces(){
-	busybox echo $enlaces | busybox tr " " "\n" | while read archivo; do
-		busybox ln -sv busybox ./bin/$archivo
+obtener_enlaces(){
+	busybox echo "$(busybox echo "basename cat chroot cp cpio cut
+dirname find grep gzip ln ls mkdir mount mv rm sleep tr umount" |
+	busybox tr "\n" " ")"
+}
+iterar_archivos(){
+	obtener_enlaces | busybox tr " " "\n" | while read archivo; do
+		if [[ "$archivo" != "" ]];then
+			eval "$1"
+		fi
 	done
 }
+crear_enlaces(){
+	iterar_archivos "busybox ln -s busybox ./bin/\$archivo"
+}
 borrar_enlaces(){
-	busybox echo $enlaces | busybox tr " " "\n" | while read archivo; do
-		busybox rm -v ./bin/$archivo
-	done
+	iterar_archivos "busybox rm ./bin/\$archivo"
 }
 
 if [[ "$1" == "ash" ]];then
