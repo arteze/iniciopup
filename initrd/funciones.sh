@@ -28,12 +28,12 @@ mostrar(){
 	fi
 }
 esperar_bash(){
-	mostrar "Presione una tecla para iniciar ash. ($1 segundos)." "$2"
+	mostrar "Presione una tecla para iniciar ash $2. Presione s para omitir."
 	read -n 1 -t $1 tecla
-	if [[ "$tecla" != "" ]];then
-		ash
-	else
+	if [[ "$tecla" == "s" || "$tecla" == "" ]];then
 		mostrar "Ash no iniciado" "$2"
+	else
+		ash
 	fi
 }
 
@@ -53,6 +53,7 @@ montar_sistema(){
 	mount -vt $@
 }
 montar(){
+	echo "Montar $@"
 	mkdir -p $3
 	if [[ "$3" == "$proc" ]];then
 		montar_sistema $@
@@ -88,7 +89,9 @@ desmontar(){
 	borrar_carpeta "$1"
 }
 desmontar_proc(){
+	echo "Desmontando proc" > "$(obtener_consola)"
 	desmontar /proc
+	echo "Desmontado proc" > "$(obtener_consola)"
 }
 
 desmontar_dev_original(){
@@ -111,5 +114,5 @@ desmontar_todo(){
 }
 
 copiar_inipup(){
-	cp -rf $inip/* /
+	cp -rfv $inip/* /
 }
