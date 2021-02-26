@@ -1,6 +1,6 @@
 #!/bin/ash
 
-esperar_bash 6 ""
+esperar_bash 5 ""
 
 montar_todo
 . "$carpeta_sd_funciones/p.funciones.sh"
